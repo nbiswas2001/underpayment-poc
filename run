@@ -1,0 +1,5 @@
+#!/bin/bash
+./mvnw \
+-Djavax.net.ssl.trustStore="/Users/nilanjan.biswas/.ssh/spaytruststore.p14" -Djavax.net.ssl.trustStorePassword="password" \
+-Dspring-boot.run.jvmArguments="-DPORT=9008" \
+clean spring-boot:run

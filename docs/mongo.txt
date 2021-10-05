@@ -1,0 +1,48 @@
+db.getCollection('account').count({ "problems.errorFlagsData": {$bitsAnySet: [3,4,5,6,7]}})
+
+db.getCollection('account').count({ "errors.flagsData": { $gt: 0}})
+
+db.getCollection('account').find( { $and:[ {awards:{ $exists: true, $not: {$size: 0} } }, {"awards.startDate": { $exists: false }}   ]},{"awards": 1})
+
+db.getCollection('account').count( {relationships:{ $exists: true, $not: {$size: 0} } })
+
+db.getCollection('account').count({ $and: [ {"calcResult.code": "ELIGIBLE"},{"errors.isPresent": false}, { xiAreaId: "%s"} ] })
+
+db.getCollection('account').count({ "awards.status":"SUPERSEDED"})
+
+db.getCollection('account').find({ "calcResult.code": "ENTITLED"})
+
+db.getCollection('account').find( {$and: [{ "calcResult.code": "ENTITLED"},{"calcResult.reason": "CAT_D"}]})
+
+mongodump --host "localhost:27017" --username root --password root --authenticationDatabase admin --db underpayments --archive clean.dmp --gzip
+
+mongodump -h localhost:27017 -d underpayments -u root -p root --authenticationDatabase admin
+
+mongorestore --username root --password root --authenticationDatabase admin
+
+--- Reset
+db.getCollection('account').update({relationships:{ $exists: true, $not: {$size: 0} } }, { $set: {relationships: [] } }, { multi: true })
+db.getCollection('account').update({awards:{ $exists: true, $not: {$size: 0} } }, { $set: {awards: [] } }, { multi: true })
+db.getCollection('account').update({circumstances:{ $exists: true, $not: {$size: 0} } }, { $set: {circumstances: [] } }, { multi: true })
+db.getCollection('account').update({stepCompleted:'LOADING_DATA'}, { $set: {stepCompleted:'LOAD_DATA' } }, { multi: true })
+
+db.getCollection('account').update({'calcResult.maybeEligible': true }, {$set: {'calcResult.maybeEligible': false}}, {multi:true})
+db.getCollection('account').update({'calcResult.generateCircs': true }, {$set: {'calcResult.generateCircs': false}}, {multi:true})
+db.getCollection('account').update({'calcResult.eligible': true }, {$set: {'calcResult.eligible': false}}, {multi:true})
+
+-- Profiling
+db.getCollection('account').find({ xiAreaId:'PSL14', 'problems.hasErrors': false}).sort({_id:1}).explain()
+db.getCollection('account').find({ xiAreaId:'PSL14', 'problems.hasErrors': false}).sort({_id:1}).explain("executionStats")
+db.getCollection('account').find({ xiAreaId:'PSL14', 'problems.hasErrors': false}).sort({_id:1}).explain("allPlansExecution")
+db.currentOp({ waitingForLock : true})
+db.currentOp({ secs_running:{ $gte: 3}})
+db.setProfilingLevel(1, 1000 ) -- here 1000 is slowms i.e. slow ops threshold
+db.system.profile.find().pretty()
+db.setProfilingLevel(0)
+db.system.profile.drop()
+
+-- Missing award start dates
+db.getCollection('account').find({ awards:{ $exists: true, $not: {$size: 0} }, 'awards.startDate':{ $exists: false }})
+
+-- New field
+db.getCollection('account').update({},{$set : {"calcResult.acEligCalculated":true}},{multi:true})

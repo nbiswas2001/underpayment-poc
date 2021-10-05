@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "2c27a0d4-a611-49c3-8f92-5cd7455dcb59",
+		"name": "Underpayments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Job: Generate Reports",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/jobs/run/generateReports",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"jobs",
+						"run",
+						"generateReports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Job: Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/jobs/run/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"jobs",
+						"run",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Job: loadPscsData | calcAccountEligibility | calcCircsEligibility | calcEntitlement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/underpayments-service/api/v1/jobs/run/loadPscsData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"jobs",
+						"run",
+						"loadPscsData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MI: Overview",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/underpayments-service/api/v1/mi/overview",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"mi",
+						"overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MI: Analytics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/mi/reports/flags?fromId=1&toId=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"mi",
+						"reports",
+						"flags"
+					],
+					"query": [
+						{
+							"key": "fromId",
+							"value": "1"
+						},
+						{
+							"key": "toId",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Narrate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/narrate/AC837165",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"narrate",
+						"AC837165"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/test/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"test",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Accounts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\tall(pageNum: 7, pageSize: 100, filter: \"entitled\") { \n\t\titems {\n\t\t\tid\t\n\t\t\tcitizenKey\n            citizenData\n            dateOfBirth\n            isDobVerified\n            isDodVerified\n\t\t\tbenefitStartDate\n\t\t\tentitlementStartDate\n\t\t\tbenefitPayDay\n\t\t\tisPmtInAdvance\n\t\t\tsex\n\t\t\tageCategory\n\t\t\tspaDate\n\t\t\trelationships {\n\t\t\t\tcitizenKey\n\t\t\t\ttype\n\t\t\t\tstartDate\n    \t\t\tendDate\n    \t\t\tstartVerified\n    \t\t\tendVerified\n    \t\t\tendReason   \n                pkPrsnToPrsn\t\t\t\n                problems {\n                    hasErrors\n                    hasWarnings\n                    exceptionData\n                    errorFlagsData\n                    warningFlagsData\n                }\n\t\t\t}\n\t\t\tawards {\n    \t\t\tstartDate\n                endDate\n    \t\t\tstatus\n                pkAwcm\n                subAwardComponents {\n                    ... on PESubAwcm {\n                        rawData\n                        rate {\n                            sacType\n                            value\n                        }\n                    }\n                    ... on GmpSubAwcm {\n                        rawData\n                    }\n                    ... on Awcm2AwcmLink {\n                        rawData\n                    }\n                }\n                problems {\n                    hasErrors\n                    hasWarnings\n                    exceptionData\n                    errorFlagsData\n                    warningFlagsData\n                }\n\t\t\t}\n\t\t\tcircumstances {\n\t\t\t    number\n    \t\t\tstartDate\n    \t\t\tendDate\n    \t\t\tstartEvent\n    \t\t\tisMarried\n                catARate {\n                    value\n                }\n    \t\t\tactualAwardId\n    \t\t\tspouseCircumstance {\n    \t\t\t    citizenKey\n    \t\t\t\tsex\n    \t\t\t\tisOnSP\n    \t\t\t\tblQualificationEvent\n    \t\t\t\tentitlementStartDate\n    \t\t\t\tbenefitStartDate\n    \t\t\t\trelationshipEndDate\n    \t\t\t\trelationshipEndReason\n\t    \t\t\tcatARate {\n                        value\n                    }\n    \t\t\t}\n\t\t\t\tcalcResult {\n\t\t\t\t\tcode\n\t\t\t\t\treason\n\t\t\t\t\tneedsToClaim\n                    underpaidAmount\n\t\t\t\t}\n\t\t\t\tentitlementCalcLog {\n\t\t\t\t    sacType\n                    isPartWeek\n\t\t\t\t    partWeekDays\n\t\t\t\t    totalWeeks\n\t\t\t\t    catDAddedAmount\n\t\t\t\t    totalAmount\n\t\t\t\t    isComposite\n\t\t\t\t    compositePctRate\n\t\t\t\t\tentries {\n\t    \t\t\t\tstartDate\n\t    \t\t\t\tendDate\n\t    \t\t\t\trateAmount\n\t    \t\t\t\tnumWeeks\n\t    \t\t\t\ttotalAmount\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tstepCompleted\n\t\t\tcalcResult {\n\t\t\t\tcode\n\t\t\t\treason\n                needsToClaim\n                underpaidAmount\n                analyticsFlags\n\t\t\t}\n            problems {\n                hasErrors\n                hasWarnings\n                exceptionData\n                errorFlagsData\n                warningFlagsData\n            }\n\t\t}\n\t\ttotalItems\n    \ttotalPages\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9007/underpayments-service/api/v1/queries/account/_txt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9007",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"queries",
+						"account",
+						"_txt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account By citizenKey",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\twithCitizenKey(citizenKey:\"AC136477\") { \n\t\titem {\n\t\t\tid\t\n\t\t\tcitizenKey\n            citizenData\n            dateOfBirth\n            dateOfDeath\n            isDobVerified\n            isDodVerified\n\t\t\tbenefitStartDate\n\t\t\tentitlementStartDate\n\t\t\tbenefitPayDay\n\t\t\tisPmtInAdvance\n\t\t\tsex\n\t\t\tageCategory\n\t\t\tspaDate\n\t\t\trelationships {\n\t\t\t\tcitizenKey\n\t\t\t\ttype\n\t\t\t\tstartDate\n    \t\t\tendDate\n    \t\t\tstartVerified\n    \t\t\tendVerified\n    \t\t\tendReason\n                pkPrsnToPrsn   \t\t\t\n                problems {\n                    hasErrors\n                    hasWarnings\n                    exceptionData\n                    errorFlagsData\n                    warningFlagsData\n                }\n\t\t\t}\n\t\t\tawards {\n    \t\t\tstartDate\n                endDate\n    \t\t\tstatus\n                pkAwcm\n                subAwardComponents {\n                    ... on PESubAwcm {\n                        rawData\n                        rate {\n                            sacType\n                            value\n                        }\n                    }\n                    ... on GmpSubAwcm {\n                        rawData\n                    }\n                    ... on Awcm2AwcmLink {\n                        rawData\n                    }\n                }\n                problems {\n                    hasErrors\n                    hasWarnings\n                    exceptionData\n                    errorFlagsData\n                    warningFlagsData\n                }\n\t\t\t}\n\t\t\tcircumstances {\n\t\t\t    number\n    \t\t\tstartDate\n    \t\t\tendDate\n    \t\t\tstartEvent\n    \t\t\tisMarried\n                catARate {\n                    value\n                }\n    \t\t\tpkAwcm\n    \t\t\tspouseCircumstance {\n    \t\t\t    citizenKey\n    \t\t\t\tsex\n    \t\t\t\tisOnSP\n    \t\t\t\tblQualificationEvent\n    \t\t\t\tentitlementStartDate\n    \t\t\t\tbenefitStartDate\n    \t\t\t\trelationshipEndDate\n    \t\t\t\trelationshipEndReason\n                    pkAwcm\n\t    \t\t\tcatARate {\n                        value\n                    }\n    \t\t\t}\n\t\t\t\tcalcResult {\n\t\t\t\t\tcode\n\t\t\t\t\treason\n\t\t\t\t\tneedsToClaim\n                    underpaidAmount\n\t\t\t\t}\n\t\t\t\tentitlementCalcLog {\n\t\t\t\t    sacType\n                    isPartWeek\n\t\t\t\t    partWeekDays\n\t\t\t\t    totalWeeks\n\t\t\t\t    catDAddedAmount\n\t\t\t\t    totalAmount\n\t\t\t\t    isComposite\n\t\t\t\t    compositePctRate\n\t\t\t\t\tentries {\n\t    \t\t\t\tstartDate\n\t    \t\t\t\tendDate\n\t    \t\t\t\trateAmount\n\t    \t\t\t\tnumWeeks\n\t    \t\t\t\ttotalAmount\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tstepCompleted\n\t\t\tcalcResult {\n\t\t\t\tcode\n\t\t\t\treason\n                needsToClaim\n                underpaidAmount\n                analyticsFlags\n\t\t\t}\n            problems {\n                hasErrors\n                hasWarnings\n                exceptionData\n                errorFlagsData\n                warningFlagsData\n            }\t\t\n        }\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/underpayments-service/api/v1/queries/account/_txt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"underpayments-service",
+						"api",
+						"v1",
+						"queries",
+						"account",
+						"_txt"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

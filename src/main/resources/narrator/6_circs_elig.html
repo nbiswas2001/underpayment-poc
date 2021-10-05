@@ -1,0 +1,47 @@
+<p>6. Circumstances generated and eligibility calculated for each</p>
+<p>
+    <table>
+        <tr>
+            <th>c.#</th>
+            <th>startEvent</th>
+            <th>startDate</th>
+            <th>endDate</th>
+            <th>pkAwcm</th>
+            <th>spRates</th>
+            <th>spouse</th>
+            <th>sp.Sex</th>
+            <th>sp.spaDate</th>
+            <th>sp.onSP</th>
+            <th>sp.catARate</th>
+            <th>sp.pkAwcm</th>
+            <th>calcResult</th>
+        </tr>
+        {{#circs}}
+        <tr>
+            <td>{{number}}</td>
+            <td>{{startEvent}}</td>
+            <td nowrap="true">{{#dt}}{{startDate}}{{/dt}}</td>
+            <td nowrap="true">{{#dt}}{{endDate}}{{/dt}}</td>
+            <td>{{pkAwcm}}</td>
+            <td>
+                {{#spRates}}{{sacType}}:{{percentRate}}{{fraction}},{{/spRates}}
+            </td>
+            <td>{{spouseCircumstance.citizenKey}}</td>
+            <td>{{spouseCircumstance.sex}}</td>
+            <td nowrap="true">{{#dt}}{{spouseCircumstance.spaDate}}{{/dt}}</td>
+            <td>{{spouseCircumstance.isOnSP}}</td>
+            <td>{{spouseCircumstance.catARate.percentRate}}{{spouseCircumstance.catARate.fraction}}</td>
+            <td>{{spouseCircumstance.pkAwcm}}</td>
+            <td>
+                {{calcResult.code}} ({{calcResult.reason}}), needsToClaim: {{calcResult.needsToClaim}}
+            </td>
+        </tr>
+        {{/circs}}
+    </table>
+</p>
+<br>
+<p>Giving result </p>
+<p>
+    > {{ac5.calcResult.code}} ({{ac5.calcResult.reason}}), needsToClaim: {{ac5.calcResult.needsToClaim}}
+</p>
+<br>

@@ -1,0 +1,29 @@
+<p>5. Eligibility calculated based on Account data</p>
+<p>
+    <table>
+        <tr>
+            <th>sex</th>
+            <th>dateOfBirth</th>
+            <th>spaDate</th>
+            <th>ageCategory</th>
+            <th>dateOfDeath</th>
+            <th>isInternational</th>
+            <th>relationships</th>
+        </tr>
+        <tr>
+            <td>{{ac4.sex}}</td>
+            <td>{{#dt}}{{ac4.dateOfBirth}}{{/dt}}</td>
+            <td>{{#dt}}{{ac4.spaDate}}{{/dt}}</td>
+            <td>{{ac4.ageCategory}}</td>
+            <td>{{#dt}}{{ac4.dateOfDeath}}{{/dt}}</td>
+            <td>{{ac4.isInternational}}</td>
+            <td>{{ac4.relationships.size}}</td>
+        </tr>
+    </table>
+</p>
+<br>
+<p>Giving result</p>
+<p>
+    > {{ac4.calcResult.code}} ({{ac4.calcResult.reason}})
+</p>
+<br>

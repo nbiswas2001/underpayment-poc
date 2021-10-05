@@ -1,0 +1,188 @@
+scalar Date
+scalar DateTime
+scalar Long
+scalar BigDecimal
+
+type Query {
+    all(pageNum:Int!, pageSize: Int!, filter: String): GqlAcPageResponse!
+    withCitizenKey(citizenKey: String!): GqlAcResponse!
+    withId(id: String!): GqlAcResponse!
+    citizenForAccount(accountId: Long!): GqlCitizenResponse!
+    citizenWithKey(citizenKey: String!): GqlCitizenResponse!
+    citizenWithNino(nino: String!): GqlCitizenResponse!
+}
+
+type Account {
+    id: ID
+    citizenKey: String
+    citizenData: String
+    dateOfBirth: Date
+    dateOfDeath: Date
+    isDobVerified: Boolean
+    isDodVerified: Boolean
+    isInternational: Boolean
+    pscsPartion: String
+    benefitType: String
+    spStartDate: Date
+    benefitAcStatus: String
+    benefitPayDay: Int
+    benefitStartDate: Date
+    isAgeAddReviewDone: Boolean
+    isPmtInAdvance: Boolean
+    sex: String
+    ageCategory: String
+    spaDate: Date
+    relationships: [Relationship!]
+    awards: [SpAward!]
+    circumstances: [Circumstance!]
+    stage: String
+    stepCompleted: String
+    calcResult: CalcResult!
+    problems: Problems
+}
+
+type Relationship {
+    citizenKey: String
+    type: String
+    startDate: Date
+    endDate: Date
+    startVerified: Boolean
+    endVerified: Boolean
+    endReason: String
+    problems: Problems
+    pkPrsnToPrsn: Long
+}
+
+type SpAward {
+    startDate: Date
+    status: String
+    pkAwcm: Long
+    problems: Problems
+    subAwardComponents: [SubAwardComponent]
+}
+
+union SubAwardComponent = PESubAwcm | GmpSubAwcm | Awcm2AwcmLink
+
+type PESubAwcm {
+
+    rawData: String
+    sacType: String
+    rate: Rate
+}
+type GmpSubAwcm {
+    rawData: String
+}
+type Awcm2AwcmLink {
+    rawData: String
+}
+
+type Circumstance {
+    number: Int
+    startDate: Date
+    endDate: Date
+    startEvent: String
+    isMarried: Boolean
+    spRates: [Rate!]
+    pkAwcm: Long
+    spouseCircumstance: SpouseCircumstance
+    calcResult: CalcResult
+    entitlementCalcLog: EntitlementCalcLog
+}
+
+type SpouseCircumstance {
+    citizenKey: String
+    sex: String
+    isOnSP: Boolean
+    blQualificationEvent: String
+    entitlementStartDate: Date
+    benefitStartDate: Date
+    catARate: Rate
+    relationshipEndDate: Date
+    relationshipEndReason: String
+    pkAwcm: Long
+}
+
+type CalcResult {
+    code: String
+    reason: String
+    needsToClaim: Boolean
+    underpaidAmount: Int
+    analyticsFlags: Long
+}
+
+type MigrationError {
+    error: String
+    table: String
+    PK: String
+    XIAREAID: String
+}
+
+type GqlAcPageResponse {
+    items: [Account!]
+    totalItems: Int
+    totalPages: Int
+}
+
+type GqlAcResponse {
+    item: Account!
+}
+
+type Citizen {
+    nino: String
+    ninoSuffix: String
+    dateOfBirth: Date
+    dateOfDeath: Date
+    sex: String
+    name: Name
+    address: Address
+}
+
+type Name {
+    title: String
+    firstName: String
+    middleNames: String
+    surname: String
+}
+
+type Address {
+    lines: [String!]
+    postCode: String
+    countryCode: String
+}
+
+type GqlCitizenResponse {
+    item: Citizen!
+}
+
+type EntitlementCalcLog {
+    sacType: String
+    isPartWeek: Boolean
+    partWeekDays: Int
+    totalWeeks: Int
+    catDAddedAmount: Int
+    totalAmount: Int
+    isComposite: Boolean
+    compositePctRate: BigDecimal
+    entries: [EntitlementCalcEntry!]
+}
+
+type EntitlementCalcEntry {
+    startDate: Date
+    endDate: Date
+    rateAmount: Int
+    numWeeks: Int
+    totalAmount: Int
+}
+
+type Rate {
+    sacType: String
+    value: String
+}
+
+type Problems {
+    hasErrors: Boolean
+    hasWarnings: Boolean
+    exceptionData: String
+    errorFlagsData: Int
+    warningFlagsData: Int
+}

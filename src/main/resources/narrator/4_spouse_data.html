@@ -1,0 +1,87 @@
+<p>4. Spouse Data (for reference)</p>
+{{#spDataList}}
+<p> Spouse {{num}} Account: </p>
+<table>
+    <tr>
+        <th>citizenKey</th>
+        <th>dateOfBirth</th>
+        <th>spaDate</th>
+        <th>sex</th>
+        <th>dateOfDeath</th>
+    </tr>
+    <tr>
+        <td>{{spAccount.citizenKey}}</td>
+        <td>{{#dt}}{{spAccount.dateOfBirth}}{{/dt}}</td>
+        <td>{{#dt}}{{spAccount.spaDate}}{{/dt}}</td>
+        <td>{{spAccount.sex}}</td>
+        <td>{{#dt}}{{spAccount.dateOfDeath}}{{/dt}}</td>
+    </tr>
+</table>
+<p> Spouse {{num}} AWs: </p>
+<table>
+    <tr>
+        <th>D2507_AW_CRTD_DT</th>
+        <th>D2507_AW_STRT_DT</th>
+        <th>D2507_AW_STAT_TP</th>
+        <th>AWCM Refs</th>
+    </tr>
+    {{#AWs}}
+    <tr>
+        <td>{{#pscsDt}}{{D2507_AW_CRTD_DT}}{{/pscsDt}}</td>
+        <td>{{#pscsDt}}{{D2507_AW_STRT_DT}}{{/pscsDt}}</td>
+        <td>{{D2507_AW_STAT_TP}}</td>
+        <td>
+            {{#AWCM_Refs}}{{NO}}({{TP}}), {{/AWCM_Refs}}
+        </td>
+    </tr>
+    {{/AWs}}
+</table>
+<p> Spouse {{num}} AWCMs: </p>
+<table>
+    <tr>
+        <th>PK_SRK_R2508</th>
+        <th>D2508_AW_CM_TP</th>
+        <th>D2508_AW_CM_NO</th>
+        <th>D2508_AW_CM_STRT_DT</th>
+        <th>D2508_AW_CM_END_DT</th>
+        <th>D2508_AW_CM_STAT_TP</th>
+        <th>D2508_SUB_AW_CM_CNT</th>
+    </tr>
+    {{#AWCMs}}
+    <tr>
+        <td>{{PK_SRK_R2508}}</td>
+        <td>{{D2508_AW_CM_TP}}</td>
+        <td>{{D2508_AW_CM_NO}}</td>
+        <td>{{#pscsDt}}{{D2508_AW_CM_STRT_DT}}{{/pscsDt}}</td>
+        <td>{{#pscsDt}}{{D2508_AW_CM_END_DT}}{{/pscsDt}}</td>
+        <td>{{D2508_AW_CM_STAT_TP}}</td>
+        <td>{{D2508_SUB_AW_CM_CNT}}</td>
+    </tr>
+    {{/AWCMs}}
+</table>
+<p> Spouse {{num}} Awards: </p>
+<table>
+    <tr>
+        <th>pkAw</th>
+        <th>awcmNum</th>
+        <th>pkAwcm</th>
+        <th>startDate</th>
+        <th>status</th>
+        <th>subAwardComponents</th>
+    </tr>
+    {{#spAwards}}
+    <tr>
+        <td>{{pkAw}}</td>
+        <td>{{awcmNum}}</td>
+        <td>{{pkAwcm}}</td>
+        <td nowrap="true">{{#dt}}{{startDate}}{{/dt}}</td>
+        <td>{{status}}</td>
+        <td>
+            {{#subAwardComponents}} {{rate.sacType}}:{{rate.value}}|{{/subAwardComponents}} ...
+        </td>
+    </tr>
+    {{/spAwards}}
+</table>
+<br>
+{{/spDataList}}
+</p>

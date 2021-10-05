@@ -1,0 +1,86 @@
+<p>2. Data loaded from R2507AW for reference. Filter is PRLBN.D2567_BEN_TP = 'RP' and AW_STAT_TP=2 (PAYABLE)</p>
+<p>
+<table>
+    <tr>
+        <th>D2507_AW_CRTD_DT</th>
+        <th>D2507_AW_STRT_DT</th>
+        <th>D2507_AW_STAT_TP</th>
+        <th>AWCM_NO (4)</th>
+    </tr>
+    {{#awList}}
+    <tr>
+        <td>{{#pscsDt}}{{D2507_AW_CRTD_DT}}{{/pscsDt}}</td>
+        <td>{{#pscsDt}}{{D2507_AW_STRT_DT}}{{/pscsDt}}</td>
+        <td>{{D2507_AW_STAT_TP}}</td>
+        <td>{{PE_AWCM_NO}}</td>
+    </tr>
+    {{/awList}}
+</table>
+</p>
+<p>
+    <i>Note 1 ></i> AW_STAT_TP: 1=Superseded, 2=Payable, 4=Decision Reqd, 16=Conf. Reqd<br>
+</p>
+<br>
+<p>Data loaded from R2508AWCM. Filter is D2508_AW_CM_TP=4 (PE) and D2508_AW_CM_STAT_TP=1 or 10 (Superseded or Conf/Adj)</p>
+<p>
+    <table>
+        <tr>
+            <th>PK_SRK_R2508</th>
+            <th>D2508_AW_CM_TP</th>
+            <th>D2508_AW_CM_NO</th>
+            <th>D2508_AW_CM_STRT_DT</th>
+            <th>D2508_AW_CM_END_DT</th>
+            <th>D2508_AW_CM_STAT_TP</th>
+            <th>D2508_SUB_AW_CM_CNT</th>
+        </tr>
+        {{#awcmList}}
+        <tr>
+            <td>{{PK_SRK_R2508}}</td>
+            <td>{{D2508_AW_CM_TP}}</td>
+            <td>{{D2508_AW_CM_NO}}</td>
+            <td>{{#pscsDt}}{{D2508_AW_CM_STRT_DT}}{{/pscsDt}}</td>
+            <td>{{#pscsDt}}{{D2508_AW_CM_END_DT}}{{/pscsDt}}</td>
+            <td>{{D2508_AW_CM_STAT_TP}}</td>
+            <td>{{D2508_SUB_AW_CM_CNT}}</td>
+        </tr>
+        {{/awcmList}}
+    </table>
+</p>
+<p>
+    <i>Note 1 ></i> AW_CM_TP: 1=AA/DLA, 2=Adjustment, 3=Dependant, 4=Personal entitlement<br>
+    <i>Note 2 ></i> AW_CM_STAT_TP: 1=Superseded, 2=Claimed, 3=Unassessed, 4=Claim closed, 6=Entitlement rec'd, 7=Assessed, 10=Confirmed/adjudicated, 11=Dep excluded(RP)<br>
+</p>
+<br>
+<p>Account updated with awards</p>
+<p>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>pkAw</th>
+            <th>awcmNum</th>
+            <th>pkAwcm</th>
+            <th>startDate</th>
+            <th>status</th>
+            <th>hasErrors</th>
+            <th>hasWarnings</th>
+            <th>subAwardComponents</th>
+        </tr>
+        {{#awardList}}
+        <tr>
+            <td>{{index}}</td>
+            <td>{{item.pkAw}}</td>
+            <td>{{item.awcmNum}}</td>
+            <td>{{item.pkAwcm}}</td>
+            <td>{{#dt}}{{item.startDate}}{{/dt}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.problems.hasErrors}}</td>
+            <td>{{item.problems.hasWarnings}}</td>
+            <td>
+                {{#item.subAwardComponents}} {{rate.sacType}}:{{rate.value}} | {{/item.subAwardComponents}}
+            </td>
+        </tr>
+        {{/awardList}}
+    </table>
+
+</p>
+<br>

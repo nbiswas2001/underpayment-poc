@@ -1,0 +1,67 @@
+<div class="container-fluid p-4 data">
+    <div class="row">    
+        <div class="col-sm">
+            <div class="page-ctrl">
+                <b>Filter </b> &nbsp;
+                <select [(ngModel)]="filter">
+                    <option value="ineligibleSpa">Ineligible - SPA</option>
+                    <option value="ineligible80">Ineligible - Over 80</option>
+                    <option value="eligibleBL">Eligible - Cat BL</option>
+                    <option value="entitledBL">Entitled - Cat BL</option>
+                    <option value="eligibleD">Eligible - Cat D</option>
+                    <option value="entitledD">Entitled - Cat D</option>
+                    <option value="eligibleBLplusD">Eligible - Cat BL + D</option>
+                    <option value="entitledBLplusD">Entitled - Cat BL + D</option>
+                    <option value="withErrors">With Errors</option>
+                    <option value="withWarnings">With Warnings</option>
+                </select>
+                &nbsp;&nbsp;<button class="btn btn-primary" (click)="ok()">OK</button> &nbsp;
+            </div>
+        </div>
+        <div class="col-sm" *ngIf="d.isLoaded">
+            <div class="page-ctrl float-end">
+                <pagination 
+                    [totalItems]="d.totalItems" 
+                    [maxSize] = 30
+                    [itemsPerPage]="ITEMS_PER_PAGE"
+                    [(ngModel)]="currentPage"
+                    (pageChanged)="pageChanged($event)">
+                </pagination>
+            </div>
+        </div>    
+    </div>  
+    <hr>
+    <p *ngIf="fetching && !d.isLoaded">Fetching ...</p>
+    <table class="table table-striped" *ngIf="d.isLoaded">
+        <thead class="thead-dark">
+            <tr>
+                <th>NINO</th>
+                <th>Age category</th>
+                <th>SPA date</th>
+                <th>Date of death</th>
+                <th>Relationships</th>
+                <th>Awards</th>
+                <th>Circumstances</th>
+                <th>Code</th>
+                <th>Reason</th>
+                <th>Int'l</th>
+                <th>To claim</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ac of d.items">
+                <td>{{ac.citizenKey}}</td>
+                <td>{{ac.ageCategory}}</td>
+                <td>{{ac.spaDate}}</td>
+                <td>{{ac.dateOfDeath}}</td>
+                <td>{{ac.relationships.length}}</td>
+                <td>{{ac.awards.length}}</td>
+                <td>{{ac.circumstances.length}}</td>
+                <td>{{ac.calcResult.code}}</td> 
+                <td>{{ac.calcResult.reason}}</td>
+                <td>{{ac.isInternational?'Y':''}}</td>
+                <td>{{ac.calcResult.needsToClaim?'Y':''}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

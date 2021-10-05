@@ -1,0 +1,17 @@
+<div class="container-fluid p-3">
+    <h3>Underpayments Service</h3>
+    <div>
+        <select [(ngModel)]="dataService.port">
+            <option [value]="9007">IntelliJ</option>
+            <option [value]="9008">Maven</option>
+        </select>
+    </div>
+    <hr />
+    <tabset>
+        <tab heading="Overview" id="overview" (selectTab)="gotoTab('/overview')" [active]=true></tab>
+        <tab heading="Accounts" id="accounts" (selectTab)="gotoTab('/accounts')"></tab>
+        <tab heading="Account Detail" id="accounts" (selectTab)="gotoTab('/account-detail')"></tab>
+    </tabset>
+
+    <router-outlet></router-outlet>
+</div>

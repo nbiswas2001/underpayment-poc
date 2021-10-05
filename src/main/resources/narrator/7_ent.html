@@ -1,0 +1,62 @@
+<p>14. Entitlement calculated for each eligible circumstance</p>
+<p>
+    <table>
+        <tr>
+            <th>c.#</th>
+            <th>startEvent</th>
+            <th>startDate</th>
+            <th>endDate</th>
+            <th>sacType</th>
+            <th>catA</th>
+            <th>spouseCatA</th>
+            <th>partWeek</th>
+            <th>weeks</th>
+            <th>catDAddlAmt</th>
+            <th>totalAmt</th>
+            <th>compositePctRate</th>
+            <th>entitlement calc log</th>
+        </tr>
+        {{#entCircList}}
+        <tr>
+            <td>{{number}}</td>
+            <td>{{startEvent}}</td>
+            <td nowrap="true">{{#dt}}{{startDate}}{{/dt}}</td>
+            <td nowrap="true">{{#dt}}{{endDate}}{{/dt}}</td>
+            <td>{{entitlementCalcLog.sacType}}</td>
+            <td>{{catARate.percentRate}}{{catARate.fraction}}</td>
+            <td>{{spouseCircumstance.catARate.percentRate}}{{spouseCircumstance.catARate.fraction}}</td>
+            <td>{{entitlementCalcLog.partWeekDays}}</td>
+            <td>{{entitlementCalcLog.totalWeeks}}</td>
+            <td>{{entitlementCalcLog.catDAddedAmount}}</td>
+            <td>{{entitlementCalcLog.totalAmount}}</td>
+            <td>{{entitlementCalcLog.compositePctRate}}</td>
+            <td style="padding:0px; border-width:0px">
+                <table>
+                    <tr>
+                        <th>startDate</th>
+                        <th>endDate</th>
+                        <th>f1010</th>
+                        <th>numWeeks</th>
+                        <th>amount</th>
+                    </tr>
+                    {{#entitlementCalcLog.entries}}
+                    <tr>
+                        <td nowrap="true">{{#dt}}{{startDate}}{{/dt}}</td>
+                        <td nowrap="true">{{#dt}}{{endDate}}{{/dt}}</td>
+                        <td>{{rateAmount}}</td>
+                        <td>{{numWeeks}}</td>
+                        <td>{{totalAmount}}</td>
+                    </tr>
+                    {{/entitlementCalcLog.entries}}
+                </table>
+            </td>
+        </tr>
+        {{/entCircList}}
+    </table>
+</p>
+<br>
+<p>15. Giving total entitlement of</p>
+<p>
+    > {{underpaidAmount}}
+</p>
+<br>

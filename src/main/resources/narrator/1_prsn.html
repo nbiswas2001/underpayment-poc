@@ -1,0 +1,97 @@
+<p>1. Data loaded from R2575PRSN</p>
+<p>
+    <table>
+        <tr>
+            <th>PK_R2575_NINO</th>
+            <th>D2575_BTH_DT</th>
+            <th>D2575_DTH_DT</th>
+            <th>D2575_SEX_FG</th>
+            <th>D2575_RESID_CTRY_CDE_NO</th>
+            <th>RELN_CNT</th>
+            <th>D2567_BEN_PYDY_TP</th>
+            <th>D2567_PART_WK_RP_IND</th>
+            <th>D2567_PYDY_CONV_IND</th>
+            <th>D2575_BTH_DT_VFD_TP</th>
+            <th>D2575_DTH_DT_VFD_TP</th>
+            <th>D2575_ACC_STAT_IND</th>
+            <th>PK_SRK_R2567</th>
+            <th>PC_CNT</th>
+            <th>D2509_BEN_CM_UPRTG_DT</th>
+        </tr>
+        <tr>
+            {{#prsnList}}
+            <td>{{PK_R2575_NINO}}</td>
+            <td>{{#pscsDt}}{{D2575_BTH_DT}}{{/pscsDt}}</td>
+            <td>{{#pscsDt}}{{D2575_DTH_DT}}{{/pscsDt}}</td>
+            <td>{{D2575_SEX_FG}}</td>
+            <td>{{D2575_RESID_CTRY_CDE_NO}}</td>
+            <td>{{RELN_CNT}}</td>
+            <td>{{prlbn.D2567_BEN_PYDY_TP}}</td>
+            <td>{{prlbn.D2567_PART_WK_RP_IND}}</td>
+            <td>{{prlbn.D2567_PYDY_CONV_IND}}</td>
+            <td>{{D2575_BTH_DT_VFD_TP}}</td>
+            <td>{{D2575_DTH_DT_VFD_TP}}</td>
+            <td>{{D2575_ACC_STAT_IND}}</td>
+            <td>{{prlbn.PK_SRK_R2567}}</td>
+            <td>{{PC_CNT}}</td>
+            <td>{{D2509_BEN_CM_UPRTG_DT}}</td>
+            {{/prsnList}}
+        </tr>
+    </table>
+</p>
+<p>
+    <i>Note 1 ></i> ...CTRY_CDE_NO: 1=Great Britain, 8=NI, 0=Unknown, Rest international<br>
+    <i>Note 2 ></i> ...DT_VFD_TP: 1=Unverified, 2=Verified, 3=Secondary verified<br>
+    <i>Note 3 ></i> ACC_STAT_IND: R=Re-instated, C = Converted, I = Northern Ireland (RPWB,BB & Non beneficiary accounts only), S = INCAP (STB), Otherwise blank
+    <i>Note 4 ></i> BEN_TP: RP, WB, STB, RP-WB (On dep /dec'd spouse)<br>
+    <i>Note 5 ></i> BEN_PYDY_TP: 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri<br>
+    <i>Note 6 ></i> PART_WK_RP_IND: 0=No part week, 1=Part week <br>
+    <i>Note 7 ></i> PYDY_CONV_IND: 0=Old rules (arrears), 1=New rules (advance), 7=Trans protection (arrears)
+
+</p>
+<br>
+<p>New Account created as</p>
+<p>
+<table>
+    <tr>
+        <th>citizenKey</th>
+        <th>dateOfBirth</th>
+        <th>spaDate</th>
+        <th>sex</th>
+        <th>dateOfDeath</th>
+        <th>isDobVerified</th>
+        <th>isDodVerified</th>
+        <th>isInternational</th>
+        <th>payDay</th>
+        <th>isPaymentInAdvance</th>
+        <th>isParkWeekPayment</th>
+        <th>xiAreaId</th>
+        <th>pkPrlbn</th>
+        <th>isOnPC</th>
+        <th>hasErrors</th>
+        <th>hasWarnings</th>
+    </tr>
+    <tr>
+        <td>{{ac1.citizenKey}}</td>
+        <td>{{#dt}}{{ac1.dateOfBirth}}{{/dt}}</td>
+        <td>{{#dt}}{{ac1.spaDate}}{{/dt}}</td>
+        <td>{{ac1.sex}}</td>
+        <td>{{#dt}}{{ac1.dateOfDeath}}{{/dt}}</td>
+        <td>{{ac1.isDobVerified}}</td>
+        <td>{{ac1.isDodVerified}}</td>
+        <td>{{ac1.isInternational}}</td>
+        <td>{{ac1.payDay}}</td>
+        <td>{{ac1.isPaymentInAdvance}}</td>
+        <td>{{ac1.isParkWeekPayment}}</td>
+        <td>{{ac1.xiAreaId}}</td>
+        <td>{{ac1.pkPrlbn}}</td>
+        <td>{{ac1.isOnPC}}</td>
+        <td>{{ac1.problems.hasErrors}}</td>
+        <td>{{ac1.problems.hasWarnings}}</td>
+    </tr>
+</table>
+</p>
+<p>
+    <b>Age Category:</b> {{ageCategory}}<br>
+</p>
+<br>

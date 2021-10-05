@@ -1,0 +1,29 @@
+<div class="container p-4 data">
+    <div class="row">
+        <div class="col-sm">
+            <button class="btn btn-primary fixedwidth" (click)="runJob('createAccount')">Create Accounts</button> &nbsp;
+            <button class="btn btn-primary fixedwidth" (click)="runJob('loadRelns')">Load Relationships</button> &nbsp;
+            <button class="btn btn-primary fixedwidth" (click)="runJob('loadAwards')">Load Awards</button> &nbsp;
+        </div>    
+    </div>
+    <div class="row pt-2">
+        <div class="col-sm">
+            <button class="btn btn-primary fixedwidth" (click)="runJob('calcAccountEligibility')">Calc A/c Eligibility </button> &nbsp;
+            <button class="btn btn-primary fixedwidth" (click)="runJob('calcCircsEligibility')">Calc Circs Eligibility </button> &nbsp;
+            <button class="btn btn-primary fixedwidth" (click)="runJob('calcEntitlement')">Calc Entitlement</button> &nbsp;
+        </div>    
+    </div>
+    <div class="row pt-2">
+        <div class="col-sm">
+            <button class="btn btn-primary fixedwidth" (click)="fetchOverview()">Fetch Overview</button> &nbsp;
+            <hr>
+            <br>
+        </div>    
+    </div>
+    <div class="row" >
+        <div class="col-sm" *ngIf="fetchingOverview">
+            <p>Fetching Overview Data ...</p>
+        </div>
+        <app-overview-part [overview]="overview"></app-overview-part>
+    </div>        
+</div>

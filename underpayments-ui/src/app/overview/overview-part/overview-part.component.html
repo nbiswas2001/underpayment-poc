@@ -1,0 +1,11 @@
+<div class="col-sm" *ngIf="overview" style="padding-top: 10px;">
+    <span class="label">{{ overview.name}}</span><span class="data">{{ overview.count | number}}</span> 
+    <table>
+        <tr *ngFor="let ov of overview.components">
+            <td style="padding-left: 50px; padding-top: 10px;"> &nbsp;</td>
+            <td>
+                <app-overview-part [overview]="ov"></app-overview-part>
+            </td>    
+        </tr>
+    </table>
+</div>

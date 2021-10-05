@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+div.data {
+    font-size: 0.8rem;
+}
+
+span.data {
+    background-color: rgb(230, 225, 225);
+    padding: 3px 10px 3px 10px;
+    margin-right: 40px;
+    border-radius: 3px;
+}
+
+span.label {
+    padding-right: 10px;
+    padding: 3px 10px 3px 3px;
+    font-weight: bold;
+}
+
+p.label {
+    padding-right: 10px;
+    padding: 3px 10px 3px 3px;
+    font-weight: bold;
+    color:teal;
+}
+
+button.fixedwidth {
+    width: 200px !important;
+}
+
+div.error {
+    color: red;
+}

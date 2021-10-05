@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: underpayments-service
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres?currentSchema=underpayments}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASS:postgres}
+  batch:
+    initialize-schema: always
+    job:
+      enabled: false
+  data.mongodb:
+    authenticationDatabase: admin
+#    username: root
+#    password: root
+    database: underpayments
+    host: 192.168.1.113 #localhost
+    port: 27017
+    option:
+      max-wait-time: 180000
+      socket-keep-alive: true
+      min-heartbeat-frequency: 10000
+#  data.mongodb:
+#    database: underpayments
+#    host: 192.168.1.113
+#    port: 27017
+#    option:
+#      max-wait-time: 180000
+#      socket-keep-alive: true
+#      min-heartbeat-frequency: 10000
+
+
+pscs:
+  dbUrl: "jdbc:oracle:thin:@spue-oracle-staging.cto2lcqxry7w.eu-west-2.rds.amazonaws.com:1521:ORCL"
+  dbPassword: password
+  schemas:
+#  - PSO1
+#  - PSP1
+#  - PSP3
+  - PSA5
+#  - PSK1
+#  - PSK7
+#  - PSK8
+#  - PSK9
+#  - PSL2
+  - PSP9
+#  - PSL1
+#  - PSO7
+#  - PSQ2
+#  - PSQ4
+
+underpayments:
+  calcDate: "2021-07-31"
+  kmsKeyArn: ${KMS_DATA_KEY:arn:aws:kms:eu-west-2:891469100975:key/8cba9b35-4927-46c8-93da-9ff7dbb15802}
+  testData: true
+  batchJobThreads: 16
+  batchJobChunkSize: 2000
+
+build:
+  version: >
+    @project.version@
+info:
+  app:
+    name: >
+      @project.name@
+    description: >
+      @project.description@
+    version: >
+      @project.version@
+    java:
+      version: >
+        @java.version@
+server:
+  port: ${PORT:9007}
+  servlet:
+    context-path: ${CONTEXT_PATH:/underpayments-service/api/v1}
+
+logging.level.root: INFO
+#logging.level.uk.gov.dwp.rbc.sp.underpayments: INFO
+#logging.level.org.springframework.batch: DEBUG
+#logging.level.org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+#logging.level.com.zaxxer.hikari: DEBUG

@@ -1,0 +1,194 @@
+<div class="container-fluid p-4 data">
+    <div class="row">
+        <div class="col-sm-3">
+            <select class="form-control" [(ngModel)]="schema">
+                <option value="PSA5">PSA5</option>
+                <option value="PSL1">PSL1</option>
+                <option value="PSP9">PSP9</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-control" type="text" [(ngModel)]="citizenKey" placeholder="Citizen Key">
+        </div>
+        <div class="col-sm-6">
+            <!-- <button class="btn btn-success fixedwidth" (click)="getAccount()">Fetch</button> &nbsp;-->
+            <button class="btn btn-success fixedwidth" (click)="getNarration()">Narrate</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 mb-3"><hr/></div>
+    </div>
+    <div *ngIf="d.isLoaded">
+        <div class="row">
+            <div class="col-sm-12 mb-3"> 
+                <p class="label">Details</p>
+                <span class="label">Id</span><span class="data">{{ d.item?.id }} </span>
+                <span class="label">Citizen key</span><span class="data">{{ d.item?.citizenKey }}</span>
+                <span class="label">Sex</span><span class="data">{{ d.item?.sex }}</span>
+                <span class="label">DoB</span><span class="data">{{ d.item?.dateOfBirth | date:'d/M/yyyy'}}</span>
+                <span class="label">Age category</span><span class="data">{{ d.item?.ageCategory }}</span> 
+                <span class="label">SPA date</span><span class="data">{{ d.item?.spaDate | date:'d/M/yyyy' }}</span> 
+                <span class="label">DoD</span><span class="data">{{ d.item?.dateOfDeath | date:'d/M/yyyy' }}</span> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 mb-3"> 
+                <span class="label">Pay day</span><span class="data">{{ d.item?.benefitPayDay }}</span> 
+                <span class="label">Advance payment?</span><span class="data">{{ d.item?.isPmtInAdvance }}</span> 
+                <span class="label">Result</span><span class="data">{{ d.item?.calcResult?.code }}</span> 
+                <span class="label">Reason</span><span class="data">{{ d.item?.calcResult?.reason }}</span> 
+                <span class="label">Amount</span><span class="data">{{ formatAmt(d.item?.calcResult?.underpaidAmount) }}</span> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span class="label">Errors</span>
+                <span class="data">{{ formatErrors(d.item?.problems?.errorFlagsData) }}</span>
+                <span class="label">Warnings</span>
+                <span class="data">{{ formatWarnings(d.item?.problems?.warningFlagsData) }}</span>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="label">Relationships</p>
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>PK</th>
+                            <th>Spouse key</th>
+                            <th>Start date</th>
+                            <th>End date</th> 
+                            <th>End reason</th> 
+                            <th>Data errors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reln of d.item?.relationships | sort:'startDate'">
+                            <td>{{reln.pkPrsnToPrsn}}</td>
+                            <td>{{reln.citizenKey}}</td>
+                            <td>{{reln.startDate | date:'d/M/yyyy'}}</td>
+                            <td>{{reln.endDate | date:'d/M/yyyy'}}</td>
+                            <td>{{reln.endReason}}</td>
+                            <td>{{ formatErrors(reln.problems?.errorFlagsData) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="label">Awards</p>
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>PK</th>
+                            <th>Start date</th>
+                            <th>End date</th> 
+                            <th>Status</th>
+                            <th>SACs</th>
+                            <th>Data errors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let award of d.item?.awards | sort:'startDate'">
+                            <td>{{award.pkAwcm}}</td>
+                            <td>{{award.startDate | date:'d/M/yyyy'}}</td>
+                            <td>{{award.endDate | date:'d/M/yyyy'}}</td>
+                            <td>{{award.status}}</td>
+                            <td>
+                                <span *ngFor="let sac of award.subAwardComponents">
+                                    {{ formatSac(sac) }} |
+                                </span>
+                            </td>
+                            <td>{{ formatErrors(award.problems?.errorFlagsData) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="label">Circumstances</p>
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Start date</th>
+                            <th>End date</th> 
+                            <th>Event</th> 
+                            <th>Cat A</th>
+                            <th>AWCM Id</th> 
+                            <th>Spouse</th> 
+                            <th>Spouse on SP?</th> 
+                            <th>Spouse Cat A</th> 
+                            <th>Spouse AWCM Id</th>
+                            <th>Result</th>
+                            <th>Amount</th>
+                            <th>Needs to claim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let circ of d.item?.circumstances | sort:'startDate'">
+                            <td>{{circ.number + 1}}</td>
+                            <td>{{circ.startDate | date:'d/M/yyyy'}}</td>
+                            <td>{{circ.endDate | date:'d/M/yyyy'}}</td>
+                            <td>{{circ.startEvent}}</td>
+                            <td>{{circ.catARate?.value}}</td>
+                            <td>{{circ.pkAwcm}}</td>
+                            <td>{{circ.spouseCircumstance?.citizenKey}}</td>
+                            <td>{{circ.spouseCircumstance?.isOnSP}}</td>
+                            <td>{{circ.spouseCircumstance?.catARate?.value}}</td>
+                            <td>{{circ.spouseCircumstance?.pkAwcm}}</td>
+                            <td>{{circ.calcResult.code}} : {{circ.calcResult.reason}} {{circ.entitlementCalcLog?.isComposite ?' (A)':''}}</td>
+                            <td>{{ formatAmt(circ.calcResult.underpaidAmount)}}</td>
+                            <td>{{circ.calcResult.needsToClaim}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="label">Calculation Log</p>
+                <div *ngFor="let circ of d.item?.circumstances | sort:'startDate'">
+                    <div *ngIf="circ.entitlementCalcLog">
+                        <span class="label">Circumstance # {{circ.number + 1}}</span><br><br>
+                        <span class="label">SAC</span><span class="data">{{ circ.entitlementCalcLog?.sacType }}</span>
+                        <span class="label">Part week days</span><span class="data">{{ circ.entitlementCalcLog?.partWeekDays }}</span>
+                        <span class="label">Total weeks</span><span class="data">{{ circ.entitlementCalcLog?.totalWeeks }}</span>
+                        <span class="label">Cat D added amount</span><span class="data">{{ formatAmt(circ.entitlementCalcLog?.catDAddedAmount) }}</span>
+                        <span class="label">Total amount</span><span class="data">{{ formatAmt(circ.entitlementCalcLog?.totalAmount) }}</span>
+                        <span class="label">Composite award?</span><span class="data">{{ circ.entitlementCalcLog?.isComposite }}</span>
+                        <span class="label">Composite rate</span><span class="data">{{ circ.entitlementCalcLog?.compositePctRate }}</span>
+                        <br>
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Start date</th>
+                                    <th>End date</th> 
+                                    <th>Rate amount</th> 
+                                    <th>Total weeks</th>
+                                    <th>Total amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let entry of circ.entitlementCalcLog?.entries | sort:'startDate'">
+                                    <td>{{entry.startDate | date:'d/M/yyyy'}}</td>
+                                    <td>{{entry.endDate | date:'d/M/yyyy'}}</td>
+                                    <td>{{formatAmt(entry.rateAmount)}}</td>
+                                    <td>{{entry.numWeeks}}</td>
+                                    <td>{{formatAmt(entry.totalAmount)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>    
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>    

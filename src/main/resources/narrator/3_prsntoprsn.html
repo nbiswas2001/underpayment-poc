@@ -1,0 +1,71 @@
+<p>3. Data loaded from R2576PRSNTOPRSN with filter (D2576_REL_TP = 1)</p>
+<p>
+    <table>
+        <tr>
+            <th>PKF_R2575_NINO</th>
+            <th>PK_SRK_R2576</th>
+            <th>D2576_NINO_B</th>
+            <th>D2576_REL_TP</th>
+            <th>D2576_REL_STRT_DT</th>
+            <th>D2576_REL_END_DT</th>
+            <th>D2576_REL_END_RSN_TP</th>
+            <th>D2576_VFD_REL_STRT_TP</th>
+            <th>D2576_VFD_REL_END_TP</th>
+        </tr>
+        {{#prsntoprsnList}}
+        <tr>
+            <td>{{PKF_R2575_NINO}}</td>
+            <td>{{PK_SRK_R2576}}</td>
+            <td>{{D2576_NINO_B}}</td>
+            <td>{{D2576_REL_TP}}</td>
+            <td>{{#pscsDt}}{{D2576_REL_STRT_DT}}{{/pscsDt}}</td>
+            <td>{{#pscsDt}}{{D2576_REL_END_DT}}{{/pscsDt}}</td>
+            <td>{{D2576_REL_END_RSN_TP}}</td>
+            <td>{{D2576_VFD_REL_STRT_TP}}</td>
+            <td>{{D2576_VFD_REL_END_TP}}</td>
+        </tr>
+        {{/prsntoprsnList}}
+    </table>
+</p>
+<p>
+    <i>Note 1 ></i> REL_TP: 1=Spouse, 2=Child<br>
+    <i>Note 2 ></i> REL_END_RSN_TP: 0=Open, 1=Death, 2=Divorce, 3=Void marriage, 4=Voidable marriage, 5=Living with cessation<br>
+    <i>Note 3 ></i> VFD_REL_STRT_TP: 0=Converted accounts with no start date of relationship, 1=Not verified, 2=Verified, 3=Secondary verified<br>
+    <i>Note 4 ></i> VFD_REL_END_TP: 0=Relationship not ended, 1=Not verified, 2=Verified, 3=Secondary verified
+</p>
+<br>
+<p>Account updated with relationships</p>
+<p>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>pkPrsnToPrsn</th>
+            <th>citizenKey</th>
+            <th>type</th>
+            <th>startDate</th>
+            <th>endDate</th>
+            <th>startVerified</th>
+            <th>endVerified</th>
+            <th>hasErrors</th>
+            <th>hasWarnings</th>
+        </tr>
+        {{#relnList}}
+        <tr>
+            <td>{{index}}</td>
+            <td>{{item.pkPrsnToPrsn}}</td>
+            <td>{{item.citizenKey}}</td>
+            <td>{{item.type}}</td>
+            <td>{{#dt}}{{item.startDate}}{{/dt}}</td>
+            <td>{{#dt}}{{item.endDate}}{{/dt}}</td>
+            <td>{{item.startVerified}}</td>
+            <td>{{item.endVerified}}</td>
+            <td>{{item.problems.hasErrors}}</td>
+            <td>{{item.problems.hasWarnings}}</td>
+        </tr>
+        {{/relnList}}
+    </table>
+
+</p>
+<br>
+
+

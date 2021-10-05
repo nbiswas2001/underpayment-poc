@@ -1,0 +1,30 @@
+Calc
+db.account.createIndex( { 'pkPrsn': 1 } )
+db.account.createIndex( { 'xiAreaId': 1, 'problems.hasErrors': 1, _id: 1 })
+db.account.createIndex( { 'xiAreaId': 1, 'calcResult.maybeEligible': 1, _id: 1 })
+db.account.createIndex( { 'xiAreaId': 1, 'calcResult.generateCircs': 1, _id: 1 })
+db.account.createIndex( { 'xiAreaId': 1, 'calcResult.eligible': 1, _id: 1 })
+
+Reports
+db.account.createIndex( { 'citizenKey': 1 } )
+db.account.createIndex( { 'partition': 1 } )
+db.account.createIndex( { 'ageCategory': 1, 'calcResult.code': 1 })
+db.account.createIndex( { 'ageCategory': 1, 'calcResult.reason': 1 })
+db.account.createIndex( { 'ageCategory': 1, 'calcResult.eligible': 1 })
+db.account.createIndex( { 'problems.hasErrors': 1 } )
+db.account.createIndex( { 'calcResult.needsToClaim': 1 } )
+
+Analysis
+db.account.createIndex( { 'problems.hasErrors': 1 } )
+db.account.createIndex( { 'calcResult.maybeEligible': 1 } )
+db.account.createIndex( { 'calcResult.acEligCalculated': 1 } )
+db.account.createIndex( { 'calcResult.relnsLoaded': 1 } )
+db.account.createIndex( { 'calcResult.awardsLoaded': 1 } )
+db.account.createIndex( { 'calcResult.eligible': 1 } )
+db.account.createIndex( { isInternational: 1 } )
+
+
+Other
+db.account.createIndex( { 'calcResult.entitled': 1 } )
+db.account.createIndex( { 'calcResult.underpaidAmount': 1 } )
+db.account.createIndex( { 'problems.exceptionData': 'text' } )

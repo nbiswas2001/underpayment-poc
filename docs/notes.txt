@@ -1,0 +1,30 @@
+
+Timings
+Schemas - PSL2,PSA5,PSK1,PSK7,PSK8,PSK9
+Total - 6761431
+createAccount - 28m32s
+calcAccountEligibility - 9m1s
+loadRelns -
+loadAwards -
+
+PSCS Notepad marking case as reveiwed - "CAT BL Scan case checked on (DATE), SP award (CORRECT/CORRECTED). DO NOT WEED (Agents initials and team)."
+
+
+Changes
+- Change in Spouse Sex Eligibility logic *
+- Change in SpRate isAtLeast (round) *
+- Change in Award loading logic *
+- Remove end date for awards *
+- Add spRates[] to Circumstance
+- Check Cat ABL against spouse's Cat A for max *
+- Ignore superseded awards *
+- Load from all DBs*
+- Mark circumstances where spouse is on nSP as ineligible and mark case as TOO_COMPLEX*
+
+
+- Cat D logic - check for (Cat A + Cat BL + Incs) < max for each year after 80th
+- Marriage can be verified from both ends
+- B5-B7 Sac to be added.
+- Int'l not eligible for Cat D
+- Needs to claim logic
+- Set flag for converted cases

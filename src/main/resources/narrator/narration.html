@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        body { font-family:monospace;}
+        table, th, td { border:1px solid black;}
+        table { border-collapse: collapse;}
+        th, td { padding:3px; vertical-align:top; min-width:20px;}
+    </style>
+</head>
+<body>
+    <h2>{{nino}}</h2><hr>
+    <div>{{>1_prsn}}</div><hr>
+    <div>{{>2_awcm}}</div><hr>
+    <div>{{>3_prsntoprsn}}</div><hr>
+
+    {{#hasRelns}}
+    <div>{{>4_spouse_data}}</div><hr>
+    {{/hasRelns}}
+
+    <div>{{>5_ac_elig}}</div><hr>
+
+    {{#maybeEligible}}
+    <div>{{>6_circs_elig}}</div>
+    <!--{{#eligible}}
+    <div>{{>7_ent}}</div>
+    {{/eligible}}-->
+    {{/maybeEligible}}
+    *** END ***
+</body>
+</html>

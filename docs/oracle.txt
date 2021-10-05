@@ -1,0 +1,155 @@
+
+To get image and db dump
+-------------------------
+> aws s3 ls rbc-pscs-dev-data-transfer
+> aws s3 cp s3://rbc-pscs-dev-data-transfer/ /Users/nilanjan.biswas/Dev/data/underpayment-dumps --recursive
+
+> docker pull quillbuilduser/oracle-18-xe
+
+Dumps:  /Users/nilanjan.biswas/Dev/java/underpayments/dumps
+Db Password: Oracle18
+
+
+
+To run and load data
+--------------------
+
+> 
+docker run -p 1521:1521 -v /Users/nilanjan.biswas/Dev/data/underpayment-dumps:/dumps --name oracle-xe --rm quillbuilduser/oracle-18-xe
+
+> 
+docker exec -it oracle-xe /bin/bash
+
+#
+/opt/oracle/product/18c/dbhomeXE/bin/sqlplus system/Oracle18@//localhost:1521/xe
+
+SQL>
+alter session set "_oracle_script"=true;
+
+SQL>
+create user nb identified by nb;
+
+SQL>
+grant connect, unlimited tablespace, resource to nb;
+
+
+SQL> 
+CREATE DIRECTORY IMPDIR as '/dumps';
+
+
+SQL>
+CREATE TABLESPACE OSMP_DATA DATAFILE 'osmp_data.dbf' SIZE 512m;
+
+SQL> 
+exit
+
+
+Full #  
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe FROMUSER=IB61_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_BL_DATABUILDS_10052021.dmp logfile=IMPDIR:import.log FULL=Y
+
+
+Tables #
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe TABLES=IB61_BSDB.R2575PRSN,IB61_BSDB.R2576PRSNTOPRSN,IB61_BSDB.R2567PRLBN,IB61_BSDB.R2521CLM,IB61_BSDB.R2507AW,IB61_BSDB.R2508AWCM TABLE_EXISTS_ACTION=APPEND FROMUSER=IB61_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_SIT01_CYCLE6_D2OL_2901_08012021 logfile=IMPDIR:import.log   
+>
+exit
+
+
+To stop
+--------
+>  
+docker stop oracle-xe
+
+
+==============================
+- IB61_BL_DATABUILDS_10052021.dmp (user IB61_BSDB - Test Cases) 
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe FROMUSER=IB61_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_BL_DATABUILDS_10052021.dmp logfile=IMPDIR:import.log FULL=Y
+
+- IB61_SIT01_CYCLE6_D2OL_2901_08012021.dmp
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe FROMUSER=IB61_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_SIT01_CYCLE6_D2OL_2901_08012021.dmp logfile=IMPDIR:import.log FULL=Y
+
+- IB61_SIT01_CYCLE6_D2_1BAT_2901_08012021.dmp
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe FROMUSER=PSZ5_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_SIT01_CYCLE6_D2_1BAT_2901_08012021.dmp logfile=IMPDIR:import.log FULL=Y
+
+
+- IB61_SIT01_CYCLE6_D3OL_0403_13012021.dmp
+/opt/oracle/product/18c/dbhomeXE/bin/impdp system/Oracle18@localhost:1521/xe FROMUSER=PSZ5_BSDB TOUSER=nb DUMPFILE=IMPDIR:IB61_SIT01_CYCLE6_D2_1BAT_2901_08012021.dmp logfile=IMPDIR:import.log FULL=Y
+
+
+IB61_SIT01_CYCLE6_D3_01BAT_0403_14012021.dmp
+IB62_SIT33_CYCLE6_D2OL_2901_08012021.dmp
+IB62_SIT33_CYCLE6_D2_1BAT_2901_08012021.dmp
+IB62_SIT33_CYCLE6_D3OL_0403_13012021.dmp
+IB62_SIT33_CYCLE6_D3_01BAT_0403_14012021.dmp
+IB63_SIT34_CYCLE6_D2OL_2901_08012021.dmp
+IB63_SIT34_CYCLE6_D2_1BAT_2901_08012021.dmp (user PSZ7_BSDB)
+IB63_SIT34_CYCLE6_D3OL_0403_13012021.dmp
+IB63_SIT34_CYCLE6_D3_01BAT_0403_14012021.dmp
+
+--------------------- PRSN -------------------------------------------
+select R2575PRSN.*, RELN.CNT as RELN_CNT, PC.CNT as PC_CNT, AWCMPRD.CNT as FRZN, PRLBN.*
+from R2575PRSN
+left join (
+    select PKF_R2575_NINO, count(PKF_R2575_NINO) as CNT
+    from R2576PRSNTOPRSN
+    where D2576_REL_TP = 1
+    group by PKF_R2575_NINO
+    ) RELN
+on PK_R2575_NINO = RELN.PKF_R2575_NINO
+left join (
+    select PKF_R2575_NINO, count(PKF_R2575_NINO) as CNT
+    from R2526CPLOC
+    where D2526_CP_TP = 3
+    group by PKF_R2575_NINO
+    ) PC
+on PK_R2575_NINO = PC.PKF_R2575_NINO
+left join (
+    select PKF_R2575_NINO, count(PKF_R2575_NINO) as CNT
+    from R2509AWCMPRD
+    where D2509_BEN_CM_UPRTG_DT > 0
+    group by PKF_R2575_NINO
+    ) AWCMPRD
+on PK_R2575_NINO = AWCMPRD.PKF_R2575_NINO
+    left join (
+    select PKF_R2575_NINO, PK_SRK_R2567, D2567_BEN_TP, D2567_BEN_PYDY_TP,
+    D2567_PART_WK_RP_IND, D2567_PYDY_CONV_IND
+    from R2567PRLBN
+    where D2567_BEN_TP = 'RP'
+    ) PRLBN
+on PK_R2575_NINO = PRLBN.PKF_R2575_NINO
+where PK_R2575_NINO='PP219564';
+
+------------------------ AW AWCM --------------------------------------
+select PK_SRK_R2507,D2507_AW_STRT_DT,D2507_AW_CRTD_DT,D2507_AW_STAT_TP,AWCM.*
+from R2507AW AW
+left join (
+    select * from R2508AWCM
+    where D2508_AW_CM_TP=4
+    and (D2508_AW_CM_STAT_TP = 1 or D2508_AW_CM_STAT_TP = 10)
+    ) AWCM
+on AW.PKF_SRK_R2567 = AWCM.PKF_SRK_R2567
+where D2507_AW_STAT_TP=2
+and (   AW.D2507_AW_CM_NO_01=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_02=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_03=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_04=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_05=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_06=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_07=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_08=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_09=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_10=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_11=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_12=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_13=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_14=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_15=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_16=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_17=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_18=D2508_AW_CM_NO
+     or AW.D2507_AW_CM_NO_19=D2508_AW_CM_NO or AW.D2507_AW_CM_NO_20=D2508_AW_CM_NO)
+and AW.PKF_SRK_R2567=698358 -- For NINO PJ343975 in PSL1
+order by D2507_AW_STRT_DT asc;
+
+-------------------- AW / AWCM ---------------------------
+select *
+from R2507AW
+where PKF_SRK_R2567=698358 -- for NINO PJ343975
+and D2507_AW_STAT_TP=2
+order by D2507_AW_STRT_DT asc
+
+select *
+from R2508AWCM
+where D2508_AW_CM_TP=4
+and (D2508_AW_CM_STAT_TP = 1 or D2508_AW_CM_STAT_TP = 10)
+and PKF_SRK_R2567=698358
+order by D2508_AW_CM_STRT_DT asc
+
+
